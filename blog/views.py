@@ -3,6 +3,7 @@ from .models import Post
 from .forms import PostForm, PostDeleteForm
 from django.contrib.auth.decorators import permission_required
 from taggit.models import Tag
+from django.core.paginator import Paginator
 
 
 def home(request, tag=None):
@@ -14,6 +15,10 @@ def home(request, tag=None):
         tag_obj = get_object_or_404(Tag, slug=tag)
         posts = Post.objects.filter(tags__in=[tag_obj])
         
+    paginator = Paginator(posts, 1)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+
     return render(request, 'home.html',
                 {'section': 'home',
                 'posts': posts,

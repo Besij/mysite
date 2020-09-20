@@ -13,4 +13,5 @@
 {% if perms.blog.delete_post %} [
 <a href="{% url 'blog:delete' pk=post.pk %}"> Delete </a> ] {% endif %} <br />
 {% endfor %}
+{% include '_pagination.html' with items=posts %}
 {% endblock %}
