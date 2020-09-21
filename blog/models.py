@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-
+from imagekit.models import ImageSpecField
+from pilkit.processors import ResizeToFill
 from taggit.managers import TaggableManager
 
 class Post(models.Model):
@@ -13,6 +14,14 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True, null=True)
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     tags = TaggableManager()
+    image = models.ImageField(default='', 
+                            blank=True, 
+                            upload_to='images')
+    image_thumbnail = ImageSpecField(source='image',
+                                    processors=[ResizeToFill(700, 150)],
+                                    format='JPEG',
+                                    options={'quality': 60})
+
 
     class Meta:
         verbose_name = "Post"

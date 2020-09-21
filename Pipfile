@@ -9,6 +9,8 @@ verify_ssl = true
 django = "*"
 django-allauth = "*"
 django-taggit = "*"
+pillow = "*"
+django-imagekit = "*"
 
 [requires]
 python_version = "3.8"
